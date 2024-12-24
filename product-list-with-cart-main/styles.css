@@ -18,28 +18,26 @@ body {
 .itemsContainer {
   display: grid;
   grid-template-columns: auto auto auto;
-  row-gap: 20px;
+  row-gap: 30px;
   margin-top: 25px;
 }
 
 .leftSide {
-  width: 700px;
+  width: 900px;
 }
 
-.rightSide {
-  width: 400px;
-  height: 250px;
-  background-color: white;
+.desserts {
+  margin-left: 15px;
 }
 
 .itemPic {
-  width: 220px;
+  width: 270px;
   border-radius: 10px;
 }
 
 .addCart {
   position: absolute;
-  width: 150px;
+  width: 170px;
   height: 40px;
   border-radius: 50px;
   background-color: white;
@@ -48,13 +46,58 @@ body {
   align-items: center;
   border: 1px solid hsl(12, 20%, 44%);
   top: 90%;
-  left: 17%;
+  cursor: pointer;
+  gap: 10px;
 }
 
 .imagePlusCart {
   position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .foodInfo {
+  position: relative;
   margin-top: 30px;
+  left: 15px;
+  line-height: 25px;
+}
+
+.title {
+  opacity: 0.5;
+}
+
+.foodName {
+  font-weight: bold;
+}
+
+.price {
+  color: hsl(14, 86%, 42%);
+  font-weight: bold;
+}
+
+.rightSide {
+  width: 400px;
+  height: 280px;
+  background-color: white;
+  border-radius: 10px;
+  margin-top: 65px;
+}
+
+.cartTitle {
+  text-indent: 20px;
+  margin-top: 20px;
+  color: hsl(14, 86%, 42%);
+}
+
+.emptyCake {
+  width: 40%;
+  margin: 0 auto 0 auto;
+  display: block;
+}
+
+.emptyDescription {
+  text-align: center;
+  margin-top: 20px;
 }
