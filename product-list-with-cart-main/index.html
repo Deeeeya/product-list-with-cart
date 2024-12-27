@@ -29,7 +29,7 @@
   <body>
     <div class="leftSide">
       <h1 class="desserts">Desserts</h1>
-      <div class="itemsContainer">
+      <div class="itemsContainer" id="products-items">
         <div class="foodItem">
           <div class="imagePlusCart">
             <img
@@ -37,7 +37,7 @@
               src="/product-list-with-cart-main/assets/images/image-waffle-desktop.jpg"
               alt="waffle"
             />
-            <button class="addButton" id="${dessert.id}">
+            <button class="addCartButton" id="addButton">
               <img
                 src="/product-list-with-cart-main/assets/images/icon-add-to-cart.svg"
                 alt="cart"
@@ -57,8 +57,9 @@
               src="/product-list-with-cart-main/assets/images/image-creme-brulee-desktop.jpg"
               alt="cremebrulee"
             />
-            <button class="addButton" id="${dessert.id}">
+            <button class="addCartButton" id="addButton">
               <img
+                onclick="addProductToCard(2)"
                 src="/product-list-with-cart-main/assets/images/icon-add-to-cart.svg"
                 alt="cart"
               />Add to Cart
@@ -77,7 +78,7 @@
               src="/product-list-with-cart-main/assets/images/image-macaron-desktop.jpg"
               alt="macaron"
             />
-            <button class="addButton" id="${dessert.id}">
+            <button class="addCartButton" id="addButton">
               <img
                 src="/product-list-with-cart-main/assets/images/icon-add-to-cart.svg"
                 alt="cart"
@@ -97,7 +98,7 @@
               src="/product-list-with-cart-main/assets/images/image-tiramisu-desktop.jpg"
               alt="tiramisu"
             />
-            <button class="addButton" id="${dessert.id}">
+            <button class="addCartButton" id="addButton">
               <img
                 src="/product-list-with-cart-main/assets/images/icon-add-to-cart.svg"
                 alt="cart"
@@ -117,7 +118,7 @@
               src="/product-list-with-cart-main/assets/images/image-baklava-desktop.jpg"
               alt="baklava"
             />
-            <button class="addButton" id="${dessert.id}">
+            <button class="addCartButton" id="addButton">
               <img
                 src="/product-list-with-cart-main/assets/images/icon-add-to-cart.svg"
                 alt="cart"
@@ -137,7 +138,7 @@
               src="/product-list-with-cart-main/assets/images/image-meringue-desktop.jpg"
               alt="lemonpie"
             />
-            <button class="addButton" id="${dessert.id}">
+            <button class="addCartButton" id="addButton">
               <img
                 src="/product-list-with-cart-main/assets/images/icon-add-to-cart.svg"
                 alt="cart"
@@ -157,7 +158,7 @@
               src="/product-list-with-cart-main/assets/images/image-cake-desktop.jpg"
               alt="redvelvet"
             />
-            <button class="addButton" id="${dessert.id}">
+            <button class="addCartButton" id="addButton">
               <img
                 src="/product-list-with-cart-main/assets/images/icon-add-to-cart.svg"
                 alt="cart"
@@ -177,7 +178,7 @@
               src="/product-list-with-cart-main/assets/images/image-brownie-desktop.jpg"
               alt="Brownie"
             />
-            <button class="addButton" id="${dessert.id}">
+            <button class="addCartButton" id="addButton">
               <img
                 src="/product-list-with-cart-main/assets/images/icon-add-to-cart.svg"
                 alt="cart"
@@ -197,7 +198,7 @@
               src="/product-list-with-cart-main/assets/images/image-panna-cotta-desktop.jpg"
               alt="pannacotta"
             />
-            <button class="addButton" id="${dessert.id}">
+            <button class="addCartButton" id="addButton">
               <img
                 src="/product-list-with-cart-main/assets/images/icon-add-to-cart.svg"
                 alt="cart"
@@ -214,19 +215,21 @@
     </div>
 
     <!--Cart-->
-    <div class="rightSide" id="cartTable">
+    <div class="rightSide">
       <h2 class="cartTitle">
         Your Cart (<span id="cartQuantity"><!-- Quantity --></span>)
       </h2>
-      <img
-        class="emptyCake"
-        src="/product-list-with-cart-main/assets/images/illustration-empty-cart.svg"
-        alt="empty"
-      />
-      <p class="emptyDescription">Your added items will appear here</p>
-      <div class="dessertItems"></div>
-      <p class="totalPrice" style="display: none">$0</p>
+      <div class="cartItemInfo" id="cart-items">
+        <img
+          class="emptyCake"
+          src="/product-list-with-cart-main/assets/images/illustration-empty-cart.svg"
+          alt="empty"
+        />
+        <p class="emptyDescription">Your added items will appear here</p>
+        <div class="dessertItems"></div>
+        <p class="totalPrice" style="display: none">$0</p>
+      </div>
     </div>
-    <script href="main.js"></script>
+    <script src="main.js"></script>
   </body>
 </html>

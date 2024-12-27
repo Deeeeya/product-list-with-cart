@@ -1,3 +1,8 @@
+const cartItemsContainer = document.getElementById("cart-items");
+const dessertItemsContainer = document.getElementById("products-items");
+
+let cartItems = [];
+
 const desserts = [
   {
     id: 1,
@@ -81,16 +86,18 @@ const desserts = [
   },
 ];
 
-const dessertsHTML = desserts.map(
-  (dessert) => `
+const dessertElements = desserts
+  .map(
+    (item) =>
+      `
   <div class="foodItem">
           <div class="imagePlusCart">
             <img
               class="itemPic"
-              src="${dessert.imgUrl}"
-              alt=""
+              src="${item.imgUrl}"
+              alt="${item.name}"
             />
-            <button class="addCart" id="${dessert.id}">
+            <button onclick="addProductToCard(${item.id})" class="addCartButton" id="addButton">
               <img
                 src="/product-list-with-cart-main/assets/images/icon-add-to-cart.svg"
                 alt="cart"
@@ -98,49 +105,50 @@ const dessertsHTML = desserts.map(
             </button>
           </div>
           <div class="foodInfo">
-            <p class="title">${dessert.title}</p>
-            <p class="foodName">${dessert.name}</p>
-            <p class="price">${dessert.price}</p>
+            <p class="title">${item.title}</p>
+            <p class="foodName">${item.name}</p>
+            <p class="price">${item.price}</p>
           </div>
   </div>
-`
-);
+  `
+  )
+  .join("");
 
-let cart = [];
-totalPrice = item.price * item.quantity;
+dessertItemsContainer.innerHTML = dessertElements;
 
-function addToCart(dessertId) {
-  const dessert = desserts.find((item) => item.id === dessertId);
-  const itemExists = cart.find((item) => item.id === dessertId);
-  if (itemExists) {
-    itemExists.quantity += 1;
+const addToCartButton = document.getElementById("addButton");
+
+const addProductToCard = (id) => {
+  const dessert = desserts.find((dessert) => dessert.id === id);
+  const existingCartItem = cartItems.find((item) => item.id === id);
+
+  if (!!existingCartItem) {
+    cartItems = cartItems.map((item) =>
+      item.id === id ? { ...item, quantity: item.quantity + 1 } : item
+    );
   } else {
-    cart.push({ ...dessert, quantity: 1 });
+    cartItems.push({
+      ...dessert,
+      quantity: 1,
+    });
   }
 
-  updateCart();
-}
+  const cartItemElements = cartItems
+    .map(
+      (item) =>
+        ` 
+      <div class="cartItem">
+        <p class="itemName">${item.name}</p> 
+        <p class="itemInfo">${item.quantity}x <span class="itemPrice">@ $${
+          item.price
+        }</span> <span class="totalPriceInfo">$${
+          item.price * item.quantity
+        }</span></p> 
+        <hr />
+      </div>
+  `
+    )
+    .join("");
 
-function updateCart() {
-  const cartContainer = getElementById("cartTable");
-  cartContainer.innerHTML = "";
-
-  cart.forEach((item) => {
-    const cartItem = document.createElement("div");
-    cartItem.className = "cartItem";
-    cartItem.innerHTML = `
-    <p>${item.name}</p>
-    <p>${item.quantity} @<span>${item.price}</span> <span>${totalPrice}</span>
-    `;
-    cartContainer.appendChild(cartItem);
-  });
-}
-
-document.querySelectorAll(".addButton").forEach((button) => {
-  button.addEventListener("click", (e) => {
-    const dessertId = parseInt(e.target.closest(".addButton").id);
-    addToCart(dessertId);
-  });
-});
-
-updateCart();
+  cartItemsContainer.innerHTML = cartItemElements;
+};
