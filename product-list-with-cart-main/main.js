@@ -1,5 +1,8 @@
 const cartItemsContainer = document.getElementById("cart-items");
 const dessertItemsContainer = document.getElementById("products-items");
+const confirmOrderButton = document.querySelector(".confirmOrder");
+const deliveryType = document.querySelector(".disclaimer");
+const orderPrice = document.querySelector(".totalContainer");
 
 let cartItems = [];
 
@@ -86,32 +89,49 @@ const desserts = [
   },
 ];
 
+const formatCurrency = (price) => {
+  return new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD",
+  }).format(price ?? 0);
+};
+
 const dessertElements = desserts
-  .map(
-    (item) =>
-      `
-  <div class="foodItem">
-          <div class="imagePlusCart">
-            <img
-              class="itemPic"
-              src="${item.imgUrl}"
-              alt="${item.name}"
-            />
-            <button onclick="addProductToCard(${item.id})" class="addCartButton" id="addButton">
-              <img
-                src="/product-list-with-cart-main/assets/images/icon-add-to-cart.svg"
-                alt="cart"
-              />Add to Cart
-            </button>
-          </div>
-          <div class="foodInfo">
-            <p class="title">${item.title}</p>
-            <p class="foodName">${item.name}</p>
-            <p class="price">${item.price}</p>
-          </div>
-  </div>
-  `
-  )
+  .map((item) => {
+    const isItemInCart = cartItems.find((item) => item.id === id);
+    if (!!isItemInCart) {
+    }
+    return `
+        <div class="foodItem">
+                <div class="imagePlusCart" >
+                  <img
+                    class="itemPic"
+                    id="itemPicID"
+                    src="${item.imgUrl}"
+                    alt="${item.name}"
+                    style="${
+                      !!isItemInCart
+                        ? "border: 1px solid hsl(14, 86%, 42%);"
+                        : ""
+                    }"
+                  />
+                  <button onclick="addProductToCard(${
+                    item.id
+                  })" class="addCartButton" id="addButton">
+                    <img
+                      src="/product-list-with-cart-main/assets/images/icon-add-to-cart.svg"
+                      alt="cart"
+                    />Add to Cart
+                  </button>
+                </div>
+                <div class="foodInfo">
+                  <p class="title">${item.title}</p>
+                  <p class="foodName">${item.name}</p>
+                  <p class="price">${formatCurrency(item.price)}</p>
+                </div>
+        </div>
+        `;
+  })
   .join("");
 
 dessertItemsContainer.innerHTML = dessertElements;
@@ -139,11 +159,13 @@ const addProductToCard = (id) => {
         ` 
       <div class="cartItem">
         <p class="itemName">${item.name}</p> 
-        <p class="itemInfo">${item.quantity}x <span class="itemPrice">@ $${
+        <p class="itemInfo">${
+          item.quantity
+        }x <span class="itemPrice">@ ${formatCurrency(
           item.price
-        }</span> <span class="totalPriceInfo">$${
+        )}</span> <span class="totalPriceInfo">${formatCurrency(
           item.price * item.quantity
-        }</span></p> 
+        )}</span></p> 
         <hr />
       </div>
   `
@@ -151,4 +173,23 @@ const addProductToCard = (id) => {
     .join("");
 
   cartItemsContainer.innerHTML = cartItemElements;
+  getTotal(cartItems);
+  confirmOrderButton.style.display = "block";
+  deliveryType.style.display = "block";
+  orderPrice.style.display = "flex";
 };
+
+function getTotal(cartItems) {
+  let { totalQuantity, totalPrice } = cartItems.reduce(
+    (total, items) => {
+      total.totalPrice += items.price * items.quantity;
+      total.totalQuantity += items.quantity;
+      return total;
+    },
+    { totalQuantity: 0, totalPrice: 0 }
+  );
+  const totalQuantityHTML = document.querySelector(".totalQuantity");
+  totalQuantityHTML.innerHTML = `${totalQuantity}`;
+  const totalPriceHTML = document.querySelector(".totalPrice");
+  totalPriceHTML.innerHTML = `${formatCurrency(totalPrice)}`;
+}

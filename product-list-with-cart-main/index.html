@@ -216,9 +216,7 @@
 
     <!--Cart-->
     <div class="rightSide">
-      <h2 class="cartTitle">
-        Your Cart (<span id="cartQuantity"><!-- Quantity --></span>)
-      </h2>
+      <h2 class="cartTitle">Your Cart (<span class="totalQuantity"></span>)</h2>
       <div class="cartItemInfo" id="cart-items">
         <img
           class="emptyCake"
@@ -227,8 +225,21 @@
         />
         <p class="emptyDescription">Your added items will appear here</p>
         <div class="dessertItems"></div>
-        <p class="totalPrice" style="display: none">$0</p>
       </div>
+      <div class="totalContainer" style="display: none">
+        <p class="orderTotal">Order Total</p>
+        <p class="totalPrice"></p>
+      </div>
+      <div class="disclaimer" style="display: none">
+        <img
+          src="/product-list-with-cart-main/assets/images/icon-carbon-neutral.svg"
+          alt="tree"
+        />
+        This is a
+        <span class="carbon-neutral">carbon-neutral</span>
+        delivery
+      </div>
+      <button class="confirmOrder" style="display: none">Confirm Order</button>
     </div>
     <script src="main.js"></script>
   </body>

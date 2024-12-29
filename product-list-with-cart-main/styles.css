@@ -35,6 +35,12 @@ body {
   border-radius: 10px;
 }
 
+.itemPicBorder {
+  width: 270px;
+  border-radius: 10px;
+  border: 2px solid hsl(14, 86%, 42%);
+}
+
 .addCartButton {
   position: absolute;
   width: 170px;
@@ -135,4 +141,52 @@ hr {
   color: hsl(13, 31%, 94%);
   background-color: hsl(13, 31%, 94%);
   border: none;
+}
+
+.confirmOrder {
+  width: 90%;
+  height: 55px;
+  border-radius: 50px;
+  border: none;
+  color: white;
+  font-weight: bold;
+  background-color: hsl(14, 86%, 42%);
+  margin: 25px auto;
+  display: block;
+  margin-bottom: 30px;
+  cursor: pointer;
+}
+
+.disclaimer {
+  width: 90%;
+  height: 60px;
+  background-color: hsl(20, 50%, 98%);
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  text-align: center;
+  margin: 20px auto;
+}
+
+.disclaimer img {
+  margin-right: 5px;
+}
+
+.carbon-neutral {
+  font-weight: bold;
+  margin: 0 5px 0 5px;
+  color: hsl(14, 65%, 9%);
+}
+
+.totalContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin: 20px 5% 0 5%;
+}
+
+.totalPrice {
+  font-weight: bold;
+  font-size: 25px;
 }
