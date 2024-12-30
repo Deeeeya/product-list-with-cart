@@ -136,8 +136,6 @@ const dessertElements = desserts
 
 dessertItemsContainer.innerHTML = dessertElements;
 
-const addToCartButton = document.getElementById("addButton");
-
 const addProductToCard = (id) => {
   const dessert = desserts.find((dessert) => dessert.id === id);
   const existingCartItem = cartItems.find((item) => item.id === id);
@@ -158,16 +156,22 @@ const addProductToCard = (id) => {
       (item) =>
         ` 
       <div class="cartItem">
-        <p class="itemName">${item.name}</p> 
-        <p class="itemInfo">${
-          item.quantity
-        }x <span class="itemPrice">@ ${formatCurrency(
+        <div>
+          <p class="itemName">${item.name}</p> 
+          <p class="itemInfo">${
+            item.quantity
+          }x <span class="itemPrice">@ ${formatCurrency(
           item.price
         )}</span> <span class="totalPriceInfo">${formatCurrency(
           item.price * item.quantity
         )}</span></p> 
-        <hr />
+        </div>
+        <button onclick={deleteItem(${item.id})} id=${
+          item.id
+        } class="removeItem"><img src="/product-list-with-cart-main/assets/images/icon-remove-item.svg" alt="x"</button>
       </div>
+      <hr />
+      
   `
     )
     .join("");
@@ -192,4 +196,14 @@ function getTotal(cartItems) {
   totalQuantityHTML.innerHTML = `${totalQuantity}`;
   const totalPriceHTML = document.querySelector(".totalPrice");
   totalPriceHTML.innerHTML = `${formatCurrency(totalPrice)}`;
+}
+
+function deleteItem(cartItems) {
+  for (let i = 0; i < cartItems.length; i++) {
+    if (cartItems[i].id === id) {
+      cartItems[i].quantity = 1;
+      cartItems.splice(i, 1);
+    }
+  }
+  getTotal(cartItems);
 }

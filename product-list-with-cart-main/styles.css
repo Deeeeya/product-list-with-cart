@@ -56,6 +56,11 @@ body {
   gap: 10px;
 }
 
+.addCartButton:hover {
+  color: hsl(14, 86%, 42%);
+  border: 1px solid hsl(14, 86%, 42%);
+}
+
 .imagePlusCart {
   position: relative;
   display: flex;
@@ -134,6 +139,11 @@ body {
   color: hsl(7, 20%, 60%);
 }
 
+.cartItem {
+  display: flex;
+  justify-content: space-between;
+}
+
 hr {
   width: 90%;
   margin: 1em auto;
@@ -155,6 +165,10 @@ hr {
   display: block;
   margin-bottom: 30px;
   cursor: pointer;
+}
+
+.confirmOrder:hover {
+  background-color: hsl(14, 85%, 32%);
 }
 
 .disclaimer {
@@ -189,4 +203,29 @@ hr {
 .totalPrice {
   font-weight: bold;
   font-size: 25px;
+}
+
+.cartItem {
+  display: flex;
+  align-items: center;
+}
+
+.removeItem {
+  margin-right: 30px;
+  border-radius: 50%;
+  padding: 3px;
+  background: none;
+  border: 2px solid hsl(7, 20%, 60%);
+  display: flex;
+  cursor: pointer;
+}
+
+.removeItem img {
+  width: 12px;
+  height: 12px;
+}
+
+.removeItem:hover {
+  border: 2px solid hsl(14, 65%, 9%);
+  content: url("/product-list-with-cart-main/assets/images/removeButton.svg");
 }
