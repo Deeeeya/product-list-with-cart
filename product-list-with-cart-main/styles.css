@@ -229,3 +229,40 @@ hr {
   border: 2px solid hsl(14, 65%, 9%);
   content: url("/product-list-with-cart-main/assets/images/removeButton.svg");
 }
+
+.newAddCartButton {
+  position: absolute;
+  width: 170px;
+  height: 40px;
+  border-radius: 50px;
+  background-color: hsl(14, 86%, 42%);
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  top: 90%;
+  gap: 50px;
+}
+
+.decreaseButton,
+.increaseButton {
+  background: none;
+  border: 1px solid white;
+  border-radius: 50%;
+  padding: 3px;
+  display: flex;
+  cursor: pointer;
+}
+
+.minusBtn,
+.plusBtn {
+  width: 12px;
+  height: 12px;
+}
+
+.decreaseButton:hover,
+.increaseButton:hover {
+  background: white;
+  content: url("/product-list-with-cart-main/minusHover.svg");
+  content: url("/product-list-with-cart-main/plusHover.svg");
+}
