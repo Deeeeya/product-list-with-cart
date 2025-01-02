@@ -260,9 +260,16 @@ hr {
   height: 12px;
 }
 
-.decreaseButton:hover,
-.increaseButton:hover {
+.decreaseButton:hover {
+  width: 20px;
+  height: 20px;
   background: white;
   content: url("/product-list-with-cart-main/minusHover.svg");
+}
+
+.increaseButton:hover {
+  width: 20px;
+  height: 20px;
+  background: white;
   content: url("/product-list-with-cart-main/plusHover.svg");
 }

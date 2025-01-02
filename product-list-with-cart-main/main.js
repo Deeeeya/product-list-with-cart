@@ -102,7 +102,7 @@ const formatCurrency = (price) => {
 function renderDessertItems() {
   const dessertElements = desserts
     .map((item) => {
-      const isItemInCart = cartItems.find((item) => item.id === id);
+      const isItemInCart = cartItems.find((product) => product.id === item.id);
       return `
         <div class="foodItem">
                 <div class="imagePlusCart" >
@@ -113,7 +113,7 @@ function renderDessertItems() {
                     alt="${item.name}"
                     style="${
                       !!isItemInCart
-                        ? "border: 1px solid hsl(14, 86%, 42%);"
+                        ? "border: 2px solid hsl(14, 86%, 42%);"
                         : ""
                     }"
                   />
@@ -151,6 +151,7 @@ function renderDessertItems() {
 const addProductToCard = (id) => {
   const dessert = desserts.find((dessert) => dessert.id === id);
   const existingCartItem = cartItems.find((item) => item.id === id);
+  console.log(existingCartItem);
   if (!!existingCartItem) {
     cartItems = cartItems.map((item) =>
       item.id === id ? { ...item, quantity: item.quantity + 1 } : item
@@ -163,36 +164,14 @@ const addProductToCard = (id) => {
     });
   }
 
-  const cartItemElements = cartItems
-    .map(
-      (item) =>
-        ` 
-      <div class="cartItem">
-        <div>
-          <p class="itemName">${item.name}</p> 
-          <p class="itemInfo">${
-            item.quantity
-          }x <span class="itemPrice">@ ${formatCurrency(
-          item.price
-        )}</span> <span class="totalPriceInfo">${formatCurrency(
-          item.price * item.quantity
-        )}</span></p> 
-        </div>
-        <button onclick={deleteItem(${item.id})} id=${
-          item.id
-        } class="removeItem"><img src="/product-list-with-cart-main/assets/images/icon-remove-item.svg" alt="x"</button>
-      </div>
-      <hr />
-      
-  `
-    )
-    .join("");
-
-  cartItemsContainer.innerHTML = cartItemElements;
-  getTotal(cartItems);
   confirmOrderButton.style.display = "block";
   deliveryType.style.display = "block";
   orderPrice.style.display = "flex";
+  renderCartItems();
+  getTotal(cartItems);
+  renderDessertItems();
+  increaseItem(id);
+  decreaseItem(id);
 };
 
 function getTotal(cartItems) {
@@ -210,13 +189,7 @@ function getTotal(cartItems) {
   totalPriceHTML.innerHTML = `${formatCurrency(totalPrice)}`;
 }
 
-function deleteItem(id) {
-  for (let i = 0; i < cartItems.length; i++) {
-    if (cartItems[i].id === id) {
-      cartItems[i].quantity = 1;
-      cartItems.splice(i, 1);
-    }
-  }
+function renderCartItems() {
   const cartItemElements = cartItems
     .map(
       (item) =>
@@ -242,7 +215,17 @@ function deleteItem(id) {
     )
     .join("");
   cartItemsContainer.innerHTML = cartItemElements;
+}
+
+function deleteItem(id) {
+  cartItems = cartItems.filter((item) => item.id !== id);
+  const dessertItem = desserts.find((item) => item.id === id);
+  if (!!dessertItem) {
+    dessertItem.quantity = 1;
+  }
+  renderCartItems();
   getTotal(cartItems);
+  renderDessertItems();
 
   if (cartItems.length === 0) {
     confirmOrderButton.style.display = "none";
@@ -259,73 +242,42 @@ function deleteItem(id) {
 }
 
 function increaseItem(id) {
-  for (let i = 0; i < cartItems.length; i++) {
-    if (cartItems[i] && cartItems[i].id == id) {
-      cartItems[i].quantity += 1;
-    }
-    getTotal(cartItems);
+  const cartItem = cartItems.find((item) => item.id === id);
+  const dessertItem = desserts.find((item) => item.id === id);
+
+  if (!!cartItem) {
+    cartItem.quantity += 1;
   }
+
+  if (!!dessertItem) {
+    dessertItem.quantity += 1;
+  }
+
+  renderCartItems();
+  renderDessertItems();
+  getTotal(cartItems);
 }
 
 function decreaseItem(id) {
-  for (let i = 0; i < cartItems.length; i++) {
-    if (cartItems[i] && cartItems[i].id > id) {
-      cartItems[i].quantity -= 1;
-    }
+  const cartItem = cartItems.find((item) => item.id === id);
+  const dessertItem = desserts.find((item) => item.id === id);
+
+  if (cartItem && cartItem.quantity > 1) {
+    cartItem.quantity -= 1;
   }
+
+  if (dessertItem && dessertItem.quantity > 1) {
+    dessertItem.quantity -= 1;
+  }
+
+  renderCartItems();
+  renderDessertItems();
   getTotal(cartItems);
 }
 
 renderDessertItems();
 
-// function changeButtonAppearance(id) {
-//   if (cartItems[id].inCart) {
-//     originalCartButton.style.display = "none";
-//   }
-//   getTotal(cartItems);
-// }
-
-/*
-const dessertElements = desserts
-      .map((id) => {
-        const isItemInCart = cartItems.find((item) => item.id === id);
-        return `
-        <div class="foodItem">
-                <div class="imagePlusCart" >
-                  <img
-                    class="itemPic"
-                    id="itemPicID"
-                    src="${item.imgUrl}"
-                    alt="${item.name}"
-                    style="${
-                      !!isItemInCart
-                        ? "border: 1px solid hsl(14, 86%, 42%);"
-                        : ""
-                    }"
-                  />
-                  <div class="newAddCartButton">
-                    <button class="decreaseButton" onclick={decreaseItem(${
-                      item.id
-                    })} id=${item.id}>
-                      <img class="minusBtn" src="/product-list-with-cart-main/assets/images/icon-decrement-quantity.svg" alt="minus" />
-                    </button>
-                    <p class="quantityAmount">${item.quantity}</p>
-                    <button class="increaseButton" onclick={increaseItem(${
-                      item.id
-                    })} id=${item.id}>
-                      <img class="plusBtn" src="/product-list-with-cart-main/assets/images/icon-increment-quantity.svg" alt="plus" />
-                      </button>
-                  </div>
-                </div>
-                <div class="foodInfo">
-                  <p class="title">${item.title}</p>
-                  <p class="foodName">${item.name}</p>
-                  <p class="price">${formatCurrency(item.price)}</p>
-                </div>
-        </div>
-        `;
-      })
-      .join("");
-
-    dessertItemsContainer.innerHTML = dessertElements;
-*/
+// const totalPriceOfItem = document.querySelector(".totalPriceInfo");
+// totalPriceOfItem.innerHTML = `${cartItems[i].quantity * cartItems[i].price}`;
+// const quantityInfo = document.querySelector(".itemInfo");
+// quantityInfo.innerHTML = `${cartItems[i].quantity}`;
