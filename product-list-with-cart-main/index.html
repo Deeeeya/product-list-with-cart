@@ -243,6 +243,27 @@
       </div>
       <button class="confirmOrder" style="display: none">Confirm Order</button>
     </div>
+    <!--Receipt-->
+    <div class="dimmer">
+      <div class="overlay"></div>
+      <div class="orderReceipt" id="confirmationOrderContainer">
+        <img
+          class="checkmark"
+          src="/product-list-with-cart-main/assets/images/icon-order-confirmed.svg"
+          alt="checkmark"
+        />
+        <h1 class="orderConfirmed">Order Confirmed</h1>
+        <p class="confirmedText">We hope you enjoy your food!</p>
+        <div class="otherContainer">
+          <div id="chosenItems"></div>
+        </div>
+        <div class="orderTotal">
+          <p class="confirmedTotal">Order Total</p>
+          <p class="confirmedTotalPrice">0</p>
+        </div>
+        <button class="startOverButton">Start New Order</button>
+      </div>
+    </div>
     <script src="main.js"></script>
   </body>
 </html>

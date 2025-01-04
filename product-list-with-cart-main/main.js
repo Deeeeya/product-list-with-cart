@@ -1,12 +1,12 @@
 const cartItemsContainer = document.getElementById("cart-items");
 const dessertItemsContainer = document.getElementById("products-items");
+const confirmationContainer = document.getElementById("chosenItems");
 const confirmOrderButton = document.querySelector(".confirmOrder");
 const deliveryType = document.querySelector(".disclaimer");
 const orderPrice = document.querySelector(".totalContainer");
 const emptyCake = document.querySelector(".emptyCake");
 const emptyDescription = document.querySelector(".emptyDescription");
 const originalCartButton = document.querySelector(".addCartButton");
-
 let cartItems = [];
 
 const desserts = [
@@ -151,7 +151,6 @@ function renderDessertItems() {
 const addProductToCard = (id) => {
   const dessert = desserts.find((dessert) => dessert.id === id);
   const existingCartItem = cartItems.find((item) => item.id === id);
-  console.log(existingCartItem);
   if (!!existingCartItem) {
     cartItems = cartItems.map((item) =>
       item.id === id ? { ...item, quantity: item.quantity + 1 } : item
@@ -172,6 +171,7 @@ const addProductToCard = (id) => {
   renderDessertItems();
   increaseItem(id);
   decreaseItem(id);
+  renderConfirmationOrder;
 };
 
 function getTotal(cartItems) {
@@ -277,7 +277,45 @@ function decreaseItem(id) {
 
 renderDessertItems();
 
-// const totalPriceOfItem = document.querySelector(".totalPriceInfo");
-// totalPriceOfItem.innerHTML = `${cartItems[i].quantity * cartItems[i].price}`;
-// const quantityInfo = document.querySelector(".itemInfo");
-// quantityInfo.innerHTML = `${cartItems[i].quantity}`;
+function getReceiptTotal(cartItems) {
+  let { totalQuantity, totalPrice } = cartItems.reduce(
+    (total, items) => {
+      total.totalPrice += items.price * items.quantity;
+      total.totalQuantity += items.quantity;
+      return total;
+    },
+    { totalQuantity: 0, totalPrice: 0 }
+  );
+  const totalQuantityHTML = document.querySelector(".totalQuantity");
+  totalQuantityHTML.innerHTML = `${totalQuantity}`;
+  const totalReceiptPriceHTML = document.querySelector(".confirmedTotalPrice");
+  totalReceiptPriceHTML.innerHTML = `${formatCurrency(totalPrice)}`;
+}
+
+function renderConfirmationOrder() {
+  const orderReceipt = cartItems
+    .map(
+      (item) =>
+        `
+  
+    <div class="itemReceiptContainer"
+      <img class="receiptItemPic" src="${item.imgUrl}" alt="${item.name}"/>
+      <div class="namePlusInfo">
+        <p class="itemName">${item.name}</p> 
+        <p class="itemInfo">${
+          item.quantity
+        }x <span class="itemPrice">@ ${formatCurrency(item.price)}</span></p>
+      </div>
+      <p class="confirmedPriceInfo">${formatCurrency(
+        item.price * item.quantity
+      )}</p>
+    </div>
+  
+  `
+    )
+    .join("");
+  confirmationContainer.innerHTML = orderReceipt;
+  getReceiptTotal(cartItems);
+}
+
+confirmOrderButton.addEventListener("click", renderConfirmationOrder);
