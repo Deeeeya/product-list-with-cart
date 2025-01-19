@@ -7,7 +7,8 @@ const orderPrice = document.querySelector(".totalContainer");
 const emptyCake = document.querySelector(".emptyCake");
 const emptyDescription = document.querySelector(".emptyDescription");
 const originalCartButton = document.querySelector(".addCartButton");
-let cartItems = [];
+const newOrderButton = document.querySelector(".startOverButton");
+let cartItems = JSON.parse(localStorage.getItem("cart")) ?? [];
 
 const desserts = [
   {
@@ -163,15 +164,13 @@ const addProductToCard = (id) => {
     });
   }
 
-  confirmOrderButton.style.display = "block";
-  deliveryType.style.display = "block";
-  orderPrice.style.display = "flex";
+  localStorage.setItem("cart", JSON.stringify(cartItems));
   renderCartItems();
-  getTotal(cartItems);
   renderDessertItems();
+  getTotal(cartItems);
   increaseItem(id);
   decreaseItem(id);
-  renderConfirmationOrder;
+  renderCartButton();
 };
 
 function getTotal(cartItems) {
@@ -215,6 +214,16 @@ function renderCartItems() {
     )
     .join("");
   cartItemsContainer.innerHTML = cartItemElements;
+  // renderCartButton();
+}
+
+function renderCartButton() {
+  const cartButton = document.querySelector(".restOfCart");
+  cartButton.style.display = "block";
+}
+
+function unRenderCartButton() {
+  cartButton.style.display = "none";
 }
 
 function deleteItem(id) {
@@ -223,22 +232,11 @@ function deleteItem(id) {
   if (!!dessertItem) {
     dessertItem.quantity = 1;
   }
+  localStorage.setItem("cart", JSON.stringify(cartItems));
+
   renderCartItems();
   getTotal(cartItems);
   renderDessertItems();
-
-  if (cartItems.length === 0) {
-    confirmOrderButton.style.display = "none";
-    deliveryType.style.display = "none";
-    orderPrice.style.display = "none";
-    cartItemsContainer.innerHTML = `
-        <img
-          class="emptyCake"
-          src="/product-list-with-cart-main/assets/images/illustration-empty-cart.svg"
-          alt="empty"
-        />
-        <p class="emptyDescription">Your added items will appear here</p>`;
-  }
 }
 
 function increaseItem(id) {
@@ -252,6 +250,7 @@ function increaseItem(id) {
   if (!!dessertItem) {
     dessertItem.quantity += 1;
   }
+  localStorage.setItem("cart", JSON.stringify(cartItems));
 
   renderCartItems();
   renderDessertItems();
@@ -269,6 +268,7 @@ function decreaseItem(id) {
   if (dessertItem && dessertItem.quantity > 1) {
     dessertItem.quantity -= 1;
   }
+  localStorage.setItem("cart", JSON.stringify(cartItems));
 
   renderCartItems();
   renderDessertItems();
@@ -290,6 +290,27 @@ function getReceiptTotal(cartItems) {
   totalQuantityHTML.innerHTML = `${totalQuantity}`;
   const totalReceiptPriceHTML = document.querySelector(".confirmedTotalPrice");
   totalReceiptPriceHTML.innerHTML = `${formatCurrency(totalPrice)}`;
+}
+
+function dimPage() {
+  const dimPage = document.querySelector(".dimmer");
+  dimPage.style.display = "block";
+  const receiptContainer = document.getElementById(
+    "confirmationOrderContainer"
+  );
+  receiptContainer.style.display = "table";
+  const bodyDimmer = document.getElementById("body");
+  bodyDimmer.style.overflow = "hidden";
+}
+
+function unDimPage() {
+  const dimPage = document.querySelector(".dimmer");
+  const receiptContainer = document.getElementById(
+    "confirmationOrderContainer"
+  );
+  dimPage.style.display = "none";
+  receiptContainer.style.display = "none";
+  location.reload();
 }
 
 function renderConfirmationOrder() {
@@ -318,4 +339,17 @@ function renderConfirmationOrder() {
   getReceiptTotal(cartItems);
 }
 
-confirmOrderButton.addEventListener("click", renderConfirmationOrder);
+function pressConfirmOrder() {
+  dimPage();
+  renderConfirmationOrder();
+}
+
+newOrderButton.addEventListener("click", () => {
+  unDimPage();
+  clearCart();
+});
+
+function clearCart() {
+  localStorage.clear();
+  location.reload();
+}

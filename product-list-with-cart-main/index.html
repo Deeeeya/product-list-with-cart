@@ -26,7 +26,7 @@
       }
     </style>
   </head>
-  <body>
+  <body id="body">
     <div class="leftSide">
       <h1 class="desserts">Desserts</h1>
       <div class="itemsContainer" id="products-items">
@@ -228,42 +228,45 @@
         <p class="emptyDescription">Your added items will appear here</p>
         <div class="dessertItems"></div>
       </div>
-      <div class="totalContainer" style="display: none">
-        <p class="orderTotal">Order Total</p>
-        <p class="totalPrice"></p>
+      <div class="restOfCart" style="display: none">
+        <div class="totalContainer">
+          <p class="orderTotal">Order Total</p>
+          <p class="totalPrice"></p>
+        </div>
+        <div class="disclaimer">
+          <img
+            src="/product-list-with-cart-main/assets/images/icon-carbon-neutral.svg"
+            alt="tree"
+          />
+          This is a
+          <span class="carbon-neutral">carbon-neutral</span>
+          delivery
+        </div>
+        <button class="confirmOrder" onclick="{pressConfirmOrder()}">
+          Confirm Order
+        </button>
       </div>
-      <div class="disclaimer" style="display: none">
-        <img
-          src="/product-list-with-cart-main/assets/images/icon-carbon-neutral.svg"
-          alt="tree"
-        />
-        This is a
-        <span class="carbon-neutral">carbon-neutral</span>
-        delivery
-      </div>
-      <button class="confirmOrder" style="display: none">Confirm Order</button>
     </div>
     <!--Receipt-->
-    <div class="dimmer">
-      <div class="overlay"></div>
-      <div class="orderReceipt" id="confirmationOrderContainer">
-        <img
-          class="checkmark"
-          src="/product-list-with-cart-main/assets/images/icon-order-confirmed.svg"
-          alt="checkmark"
-        />
-        <h1 class="orderConfirmed">Order Confirmed</h1>
-        <p class="confirmedText">We hope you enjoy your food!</p>
-        <div class="otherContainer">
-          <div id="chosenItems"></div>
-        </div>
-        <div class="orderTotal">
-          <p class="confirmedTotal">Order Total</p>
-          <p class="confirmedTotalPrice">0</p>
-        </div>
-        <button class="startOverButton">Start New Order</button>
+    <div class="orderReceipt" id="confirmationOrderContainer">
+      <img
+        class="checkmark"
+        src="/product-list-with-cart-main/assets/images/icon-order-confirmed.svg"
+        alt="checkmark"
+      />
+      <h1 class="orderConfirmed">Order Confirmed</h1>
+      <p class="confirmedText">We hope you enjoy your food!</p>
+      <div class="otherContainer">
+        <div id="chosenItems"></div>
       </div>
+      <div class="newOrderTotal">
+        <p class="confirmedTotal">Order Total</p>
+        <p class="confirmedTotalPrice">0</p>
+      </div>
+      <button class="startOverButton">Start New Order</button>
     </div>
+    <div class="dimmer"></div>
+
     <script src="main.js"></script>
   </body>
 </html>
